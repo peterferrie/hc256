@@ -1,0 +1,43 @@
+For 256-bit key and 256-bit IV. 
+
+Let key be an array and with 32 elements, i.e., 
+Key = Key[0], key[1], key[2], ...., key [30], key[31],
+where each key[i] denotes one byte.
+Let IV be an array and with 32 elements, i.e.,
+IV = IV[0], IV[1], IV[2], ...., IV [30], IV[31], 
+where each IV[i] denotes one byte. 
+
+
+1.  If every byte of the key and IV are with value 0, 
+    then the first 32 bytes of the keystream are given as:
+
+    5b    07    89    85    d8    f6    f3    0d    
+    42    c5    c0    2f    a6    b6    79    51    
+    53    f0    65    34    80    1f    89    f2    
+    4e    74    24    8b    72    0b    48    18
+
+
+2. If every byte of the key and IV are with value 0, 
+   except that IV[0] = 1, then the first 32 bytes of the 
+   keystream are given as:
+
+   af    e2    a2    bf    4f    17    ce    e9    
+   fe    c2    05    8b    d1    b1    8b    b1    
+   5f    c0    42    ee    71    2b    31    01    
+   dd    50    1f    c6    0b    08    2a    50
+
+
+3. If every byte of the key and IV are with value 0, 
+   except that key[0] = 0x55, then the first 32 bytes of the 
+   keystream are given as:
+
+   1c    40    4a    fe    4f    e2    5f    ed    
+   95    8f    9a    d1    ae    36    c0    6f    
+   88    a6    5a    3c    c0    ab    e2    23    
+   ae    b3    90    2f    42    0e    d3    a8
+
+    
+
+
+       
+     
