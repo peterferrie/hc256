@@ -31,6 +31,7 @@
 #define HC256_H
 
 #include <stdint.h>
+#include <string.h>
 
 #define U8V(v)  ((uint8_t)(v)  & 0xFFU)
 #define U16V(v) ((uint16_t)(v) & 0xFFFFU)
@@ -53,6 +54,9 @@
 #define ROTR16(v, n) ROTL16(v, 16 - (n))
 #define ROTR32(v, n) ROTL32(v, 32 - (n))
 #define ROTR64(v, n) ROTL64(v, 64 - (n))
+
+#define SIG0(x)(ROTR32((x),  7) ^ ROTR32((x), 18) ^ ((x) >>  3))
+#define SIG1(x)(ROTR32((x), 17) ^ ROTR32((x), 19) ^ ((x) >> 10))
 
 typedef struct hc_ctx_t {
   uint32_t ctr;

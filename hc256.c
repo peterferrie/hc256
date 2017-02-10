@@ -34,7 +34,7 @@ uint32_t hc256_generate(hc_ctx* c)
 {
     uint32_t r, i, i3, i10, i12, i1023;
     uint32_t *x0, *x1;
-    uint32_t w0, w1, w2, w3, t;
+    uint32_t w0, w1, t;
     
     t=c->ctr;
     
@@ -72,9 +72,6 @@ uint32_t hc256_generate(hc_ctx* c)
     return r;
 }
 
-#define SIG0(x)(ROTR32((x),  7) ^ ROTR32((x), 18) ^ ((x) >>  3))
-#define SIG1(x)(ROTR32((x), 17) ^ ROTR32((x), 19) ^ ((x) >> 10))
-
 // both key and iv must be 32 bytes / 256-bits!
 void hc256_setkey(hc_ctx *c, void *kiv)
 {
@@ -96,12 +93,10 @@ void hc256_setkey(hc_ctx *c, void *kiv)
     pq = c->T;
     wp = &W[512];
     
-    // 6. set the P and Q tables
-    for (i=0; i<2048; i++) { 
-      *pq++ = *wp++;
-    }
+    // 4. set the P and Q tables
+    memcpy(pq, wp, 2048*4);
     
-    // 7. run cipher 4096 iterations before generating output
+    // 5. run cipher 4096 iterations before generating output
     for (i=0; i<4096; i++) {
       hc256_generate(c);
     }
