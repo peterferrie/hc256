@@ -72,11 +72,10 @@ uint32_t hc256_generate(hc_ctx* c)
     return r;
 }
 
-// both key and iv must be 32 bytes / 256-bits!
+// both key and iv must be 32 bytes each / 256-bits!
 void hc256_setkey(hc_ctx *c, void *kiv)
 {
     uint32_t W[4096], i;
-    uint32_t *pq, *wp;
     
     // 1. set counter
     c->ctr = 0;
@@ -86,15 +85,12 @@ void hc256_setkey(hc_ctx *c, void *kiv)
 
     // 3. expand buffer using SHA-256 macros
     for (i=16; i<4096; i++) {
-      W[i] = SIG1(W[i-2])  + W[i-7]  + 
+      W[i] = SIG1(W[i- 2]) + W[i- 7] + 
              SIG0(W[i-15]) + W[i-16] + i; 
     }
     
-    pq = c->T;
-    wp = &W[512];
-    
-    // 4. set the P and Q tables
-    memcpy(pq, wp, 2048*4);
+    // 6. set the P and Q tables
+    memcpy (&c->T[0], &W[512], 2048*4);
     
     // 5. run cipher 4096 iterations before generating output
     for (i=0; i<4096; i++) {
